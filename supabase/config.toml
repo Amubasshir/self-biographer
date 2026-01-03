@@ -1,0 +1,7 @@
+project_id = ""
+
+[functions.generate-bio]
+verify_jwt = true
+
+[functions.create-checkout]
+verify_jwt = true
