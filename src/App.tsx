@@ -5,9 +5,19 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
-
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import DashboardLayout from "@/components/layout/DashboardLayout";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import ProfileEditor from "./pages/ProfileEditor";
+import PublicProfile from "./pages/PublicProfile";
+import PublicPressKit from "./pages/PublicPressKit";
+import Billing from "./pages/Billing";
+import Settings from "./pages/Settings";
+import Templates from "./pages/Templates";
+import Admin from "./pages/Admin";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +33,18 @@ const App = () => (
               {/* Public routes */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/p/:slug" element={<PublicProfile />} />
+              <Route path="/kit/:slug" element={<PublicPressKit />} />
+
+              {/* Protected routes */}
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/profile/:id" element={<ProtectedRoute><ProfileEditor /></ProtectedRoute>} />
+              <Route path="/billing" element={<ProtectedRoute><Billing /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path="/templates" element={<ProtectedRoute><Templates /></ProtectedRoute>} />
+              <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><Admin /></ProtectedRoute>} />
+
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
@@ -30,6 +52,5 @@ const App = () => (
     </QueryClientProvider>
   </HelmetProvider>
 );
-
 
 export default App;
